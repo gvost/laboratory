@@ -1,0 +1,14 @@
+.black {
+	height: 200px;
+	width: 300px;
+	margin:0 auto;
+	display:block;
+	background-color: none;
+}
+.triangle {
+	background-color: rgba(0,0,0,0.9);
+	background-image: url(http://lorempixel.com/output/abstract-q-c-640-480-7.jpg);
+	background-repeat: no-repeat;
+	background-position: 0 0;
+	background-size: cover;
+}

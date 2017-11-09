@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <style>
+      #container {
+        /*background-color: black;*/
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+  </body>
+</html>
+
+<script>
+
+  var XMIN = -2.5;
+  var XMAX = 2;
+  var YMIN = -1.5;
+  var YMAX = 1.5;
+
+ /* var XMIN = -0.75;
+  var XMAX = -0.73;
+  var YMIN = 0.2;
+  var YMAX = 0.228;*/
+
+/*  var colors = [
+    [0, "green"],
+    [5, "orange"],
+    [10, "blue"],
+    [20, "yellow"],
+    [30, "red"],
+    [50, "black"]
+  ]*/
+  
+  // get container height and width
+  var container = document.getElementById("container");
+  var width = container.offsetWidth;
+  var height = container.offsetHeight;
+
+  // create the canvas 
+  var canvas = document.createElement('canvas');
+  container.appendChild(canvas);
+  canvas.width = width;
+  canvas.height = height;
+  var ctx = canvas.getContext('2d');
+
+
+  drawFractal();
+
+
+  function drawFractal() {
+    var x = 0;
+    setInterval(function() {
+      for (var y = 0; y < height; y++) {
+        ctx.fillStyle = getColor(x, y);
+        ctx.fillRect(x, y, 1, 1);
+      }
+      x++;
+    }, 0);
+  }
+
+  function getColor(x, y) {
+    var iters = getIterations(getPoint(x, y));
+
+    /*var i = 1;
+    while (colors[i] && iters > colors[i][0]) {
+      i++;
+    }
+    return colors[i - 1][1];*/
+
+    var C = 5;
+    var red = green = blue = iters * C % 255;
+   // var green = iters * C % 255;
+   // var blue = iters * C % 255;
+
+    return "rgb(" + red + "," + green + "," + blue + ")";
+  }
+
+  function getPoint(x, y) {
+    return [
+      XMIN + (XMAX - XMIN) * x / width,
+      YMAX - (YMAX - YMIN) * y / height
+    ]
+  }
+
+  function getIterations(p) {
+    var iters = 0;
+    c = [p[0], p[1]];
+
+    while (iters <= 50 && p[0] < 200 && p[1] < 100) {
+      p = addPoints(c, squarePoint(p));
+      iters++;
+    }
+
+    return iters;
+  }
+
+  function addPoints(p1, p2) {
+    return [p1[0] + p2[0], p1[1] + p2[1]];
+  }
+
+  function squarePoint(p) {
+    var x = p[0], y = p[1];
+    return [x * x - y * y, 2 * x * y];
+  }
+
+  canvas.onmousedown = function(event) {
+    console.log(getPoint(event.pageX, event.pageY));
+  }
+
+</script>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <style>
+      #container {
+        background-color: black;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+  </body>
+</html>
+
+<script>
+  
+  // get container height and width
+  var container = document.getElementById("container");
+  var width = container.offsetWidth;
+  var height = container.offsetHeight;
+
+  // create the canvas 
+  var canvas = document.createElement('canvas');
+  container.appendChild(canvas);
+  canvas.width = width;
+  canvas.height = height;
+  var ctx = canvas.getContext('2d');
+
+  // set triangle corners 
+  var corners = [
+    {x: width / 2,    y: 50},
+    {x: 100,          y: height - 50},
+    {x: width - 100,  y: height - 50}
+  ];
+
+  // set animation styles
+  var styles = [
+    {color: "white",  speed: 40},
+    {color: "red",    speed: 60},
+    {color: "black",  speed: 100}
+  ];
+
+  // initialize the animation
+  var curStyle = 0;
+  ctx.fillStyle = styles[curStyle].color;
+  var curSpeed = styles[curStyle].speed;
+  var curPoint = corners[0];
+
+  // do the animation
+  setInterval(function() {
+    for (var i = 0; i < curSpeed; i++) {
+      curPoint = midPoint(curPoint, randomCorner());
+      drawPoint(curPoint);
+    }
+  }, 1);
+
+  // click to cycle the animation style
+  canvas.onclick = function() {
+    curStyle = (curStyle + 1) % styles.length;
+
+    ctx.fillStyle = styles[curStyle].color;
+    curSpeed = styles[curStyle].speed;
+  }
+
+  // helper functions
+  function midPoint(p1, p2) {
+    return {
+      x: (p1.x + p2.x) / 2, 
+      y: (p1.y + p2.y) / 2
+    };
+  }
+
+  function randomCorner() {
+    return corners[Math.floor(Math.random() * corners.length)];
+  }
+
+  function drawPoint(p) {
+    ctx.fillRect(p.x, p.y, 1, 1);
+  }
+
+</script>
