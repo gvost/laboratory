@@ -1,4 +1,4 @@
-!(real genius)[https://media.giphy.com/media/pB7sQym71DEg8/giphy.gif]
+![real genius](https://media.giphy.com/media/pB7sQym71DEg8/giphy.gif)
 ### Code Laboratory
 
 Catchall repo for trying new things, and that.
